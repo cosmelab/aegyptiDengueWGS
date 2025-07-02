@@ -59,12 +59,6 @@ RUN micromamba install --channel-priority strict -c conda-forge \
     ruby \
     -y && micromamba clean --all --yes
 
-
-
-
-
-
-
 # Install Jupyter ecosystem (conda-forge only)
 RUN micromamba install --channel-priority strict -c conda-forge \
     jupyter \
@@ -103,10 +97,8 @@ RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
 # Set locale to avoid warnings
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-
-
 # Install R packages for population genetics (essential and utility only)
-RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'reticulate', 'broom', 'readxl', 'writexl', 'knitr', 'rmarkdown', 'pegas', 'ape', 'phangorn', 'adegenet', 'vcfR', 'genetics', 'HardyWeinberg'), repos='https://cloud.r-project.org/')"
+RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'reticulate', 'broom', 'readxl', 'writexl', 'knitr', 'rmarkdown', 'pegas', 'ape', 'phangorn', 'adegenet', 'vcfR', 'genetics'), repos='https://cloud.r-project.org/')"
 
 # Install and configure shell environment in a single layer (as root, then transfer to aedes)
 RUN git clone https://github.com/ohmyzsh/ohmyzsh.git /tmp/.oh-my-zsh && \
@@ -151,17 +143,15 @@ WORKDIR /proj
 RUN mkdir -p /proj/data/raw /proj/data/processed /proj/data/references /proj/data/metadata \
     /proj/results/interim /proj/results/organized /proj/results/analysis \
     /proj/scripts /proj/scripts/analysis /proj/scripts/visualization \
-    /proj/configs /proj/containers /proj/logs && \
-    chown -R aedes:aedes /proj
-
-
+    /proj/configs /proj/containers /proj/logs
 
 # Expose Jupyter port
 EXPOSE 8888
 
 # Create non-root user for security
 RUN groupadd -r aedes && useradd -r -g aedes aedes && \
-    chown -R aedes:aedes /proj
+    chown -R aedes:aedes /proj && \
+    id aedes
 
 # Switch to non-root user for configuration
 USER aedes
@@ -198,7 +188,6 @@ RUN cp -r /tmp/.oh-my-zsh ~/.oh-my-zsh && \
     cp /tmp/.p10k.zsh ~/.p10k.zsh && \
     chown -R aedes:aedes ~/.oh-my-zsh ~/.zshrc ~/.p10k.zsh && \
     rm -rf /tmp/.oh-my-zsh /tmp/.zshrc /tmp/.p10k.zsh
-
 
 
 # Clean up only cache files (keep config files)
