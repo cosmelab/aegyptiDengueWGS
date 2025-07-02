@@ -119,10 +119,10 @@ RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
 RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
     r-base \
     r-devtools \
-    r-variantannotation \
-    r-snprelate \
-    r-annotationdbi \
-    r-biomart \
+    bioconductor-variantannotation \
+    bioconductor-snprelate \
+    bioconductor-annotationdbi \
+    bioconductor-biomart \
     sra-tools \
     entrez-direct \
     -y && micromamba clean --all --yes
