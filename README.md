@@ -260,3 +260,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Project:** aegyptiDengueWGS Analysis
 **Purpose:** Population genomics analysis for dengue resistance in Aedes aegypti
 # Updated to use main branch and latest tags
+# Trigger workflow
