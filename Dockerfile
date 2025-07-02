@@ -56,7 +56,7 @@ RUN wget https://github.com/lsd-rs/lsd/releases/download/v1.1.5/lsd-v1.1.5-x86_6
 
 # Install Ruby and colorls
 RUN micromamba install --channel-priority strict -c conda-forge \
-    ruby \
+    ruby rubygems \
     -y && micromamba clean --all --yes
 
 # Install Jupyter ecosystem (conda-forge only)
@@ -103,6 +103,7 @@ RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'ret
 # Install and configure shell environment in a single layer (as root, then transfer to aedes)
 RUN git clone https://github.com/ohmyzsh/ohmyzsh.git /tmp/.oh-my-zsh && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /tmp/.oh-my-zsh/custom/themes/powerlevel10k && \
+    cp /tmp/.oh-my-zsh/custom/themes/powerlevel10k/config/p10k.zsh /tmp/.p10k.zsh && \
     git clone https://github.com/dracula/zsh.git /tmp/.oh-my-zsh/themes/dracula && \
     git clone https://github.com/zsh-users/zsh-completions.git /tmp/.oh-my-zsh/custom/plugins/zsh-completions && \
     git clone https://github.com/zsh-users/zsh-autosuggestions.git /tmp/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
@@ -160,7 +161,7 @@ USER aedes
 RUN export GEM_HOME="/opt/conda/share/rubygems" && \
     export GEM_PATH="/opt/conda/share/rubygems" && \
     export PATH="/opt/conda/share/rubygems/bin:$PATH" && \
-    gem install colorls
+    /opt/conda/bin/gem install colorls
 
 # Create colorls configuration directory and file for aedes user
 RUN mkdir -p ~/.config/colorls && \
