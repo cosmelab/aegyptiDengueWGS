@@ -47,8 +47,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/aegypti-dengue-wgs
-            docker.io/${{ secrets.DOCKER_USERNAME }}/aegypti-dengue-wgs
+            ghcr.io/cosmelab/aegypti-dengue-wgs
+            docker.io/${{ github.actor }}/aegypti-dengue-wgs
           tags: |
             type=raw,value=latest
 
