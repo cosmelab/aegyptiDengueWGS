@@ -1,0 +1,48 @@
+services:
+  wgs-analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aegypti-dengue-wgs
+    volumes:
+      # Mount your local project directory to /proj in container
+      - ./:/proj
+      # Mount a separate volume for large WGS data files
+      - wgs-data:/proj/data/raw
+      # Mount for SRA cache
+      - sra-cache:/proj/data/sra
+      # Mount for reference genomes
+      - reference-data:/proj/data/references
+      # Mount for results
+      - results-data:/proj/results
+    ports:
+      # Jupyter notebook port
+      - "8888:8888"
+      # RStudio server port (if needed later)
+      - "8787:8787"
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - TZ=UTC
+      - JAVA_OPTS=-Xmx4g
+    working_dir: /proj
+    # Keep container running
+    tty: true
+    stdin_open: true
+    # Increase shared memory for large WGS datasets
+    shm_size: 4gb
+    # Set resource limits for WGS analysis
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+          cpus: '8'
+
+volumes:
+  wgs-data:
+    driver: local
+  sra-cache:
+    driver: local
+  reference-data:
+    driver: local
+  results-data:
+    driver: local
