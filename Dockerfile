@@ -101,8 +101,17 @@ RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
 # Install Ruby separately (with its bundled gem)
 RUN micromamba install -c conda-forge ruby=3.2.2 -y && micromamba clean --all --yes
 
+# Install missing R dependencies via conda (preferred over R install.packages)
+RUN micromamba install -y -c conda-forge -c bioconda \
+    r-ade4 r-mass r-ggplot2 r-vegan r-seqinr r-qqconf \
+    && micromamba clean --all --yes
+
 # Install R packages for population genetics (essential and utility only)
-RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'reticulate', 'broom', 'readxl', 'writexl', 'knitr', 'rmarkdown', 'pegas', 'ape', 'phangorn', 'adegenet', 'vcfR', 'genetics'), repos='https://cloud.r-project.org/')"
+RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'reticulate', 'broom', 'readxl', 'writexl', 'knitr', 'rmarkdown', 'pegas', 'ape', 'phangorn', 'vcfR', 'genetics'), repos='https://cloud.r-project.org/', dependencies=TRUE)"
+
+# Install colorls globally as root (fixes permission issue)
+RUN /opt/conda/bin/gem install colorls --no-document -n /usr/local/bin && \
+    chmod +x /usr/local/bin/colorls
 
 # Switch to aedes user early to avoid unnecessary root-owned layers
 USER aedes
@@ -137,18 +146,8 @@ RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /tmp/powerl
   && echo 'export COLORTERM="truecolor"' >> /home/aedes/.zshrc \
   && echo 'export EZA_COLORS="ur=0:uw=0:ux=0:ue=0:gr=0:gw=0:gx=0:tr=0:tw=0:tx=0:su=0:sf=0:xa=0"' >> /home/aedes/.zshrc \
   && echo 'export COLORFGBG="15;0"' >> /home/aedes/.zshrc \
-  && echo '# Ruby gem environment' >> /home/aedes/.zshrc \
-  && echo 'export GEM_HOME="/opt/conda/share/rubygems"' >> /home/aedes/.zshrc \
-  && echo 'export GEM_PATH="/opt/conda/share/rubygems"' >> /home/aedes/.zshrc \
-  && echo 'export PATH="/opt/conda/share/rubygems/bin:$PATH"' >> /home/aedes/.zshrc \
   && echo '# Initialize conda' >> /home/aedes/.zshrc \
   && echo 'export PATH="/opt/conda/bin:${PATH}"' >> /home/aedes/.zshrc
-
-# Set up Ruby gem environment and install colorls for aedes user
-RUN export GEM_HOME="/opt/conda/share/rubygems" && \
-    export GEM_PATH="/opt/conda/share/rubygems" && \
-    export PATH="/opt/conda/share/rubygems/bin:$PATH" && \
-    /opt/conda/bin/gem install colorls
 
 # Create colorls configuration directory and file for aedes user
 RUN mkdir -p ~/.config/colorls && \
