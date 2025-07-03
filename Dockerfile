@@ -59,9 +59,6 @@ RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
     # Compiler tools (replacing build-essential)
     gcc \
     make \
-    # Ruby for colorls with pinned version
-    ruby=3.2.2 \
-    rubygems \
     # Jupyter ecosystem
     jupyter \
     jupyterlab \
@@ -100,6 +97,9 @@ RUN micromamba install --channel-priority strict -c conda-forge -c bioconda \
     # Workflow management tools
     snakemake \
     -y && micromamba clean --all --yes
+
+# Install Ruby separately (with its bundled gem)
+RUN micromamba install -c conda-forge ruby=3.2.2 -y && micromamba clean --all --yes
 
 # Install R packages for population genetics (essential and utility only)
 RUN R -e "install.packages(c('data.table', 'tidyverse', 'qqman', 'qqplotr', 'reticulate', 'broom', 'readxl', 'writexl', 'knitr', 'rmarkdown', 'pegas', 'ape', 'phangorn', 'adegenet', 'vcfR', 'genetics'), repos='https://cloud.r-project.org/')"
