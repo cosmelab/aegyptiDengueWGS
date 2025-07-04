@@ -1,4 +1,37 @@
-# Aedes aegypti WGS Analysis Pipeline
+# 🦟 Aedes aegypti WGS Analysis Pipeline
+
+<div align="center">
+
+![Aedes aegypti](https://img.shields.io/badge/Species-Aedes%20aegypti-brightgreen)
+![Analysis Type](https://img.shields.io/badge/Analysis-WGS%20Pipeline-blue)
+![Container](https://img.shields.io/badge/Container-Docker%20%7C%20Singularity-orange)
+![License](https://img.shields.io/badge/License-MIT-green)
+
+**Whole Genome Sequencing Analysis for Dengue Resistance Research**
+
+*Multi-omics integration: GWAS → WGS → RNA-seq validation*
+
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-cosmelab%2Faegypti--dengue--wgs-blue?logo=docker)](https://hub.docker.com/r/cosmelab/aegypti-dengue-wgs)
+[![GitHub Container Registry](https://img.shields.io/badge/GHCR-ghcr.io%2Fcosmelab%2Faegypti--dengue--wgs-purple?logo=github)](https://github.com/cosmelab/aegyptiDengueWGS/pkgs/container/aegypti-dengue-wgs)
+
+</div>
+
+---
+
+## 📋 **Table of Contents**
+
+- [🎯 Project Overview](#-project-overview)
+- [🚀 Quick Start](#-quick-start)
+- [🏗️ Project Structure](#️-project-structure)
+- [🐳 Container Usage](#-container-usage)
+- [🛠️ Features & Tools](#️-features--tools)
+- [🔗 Remote Development Setup](#-remote-development-setup)
+- [📚 Documentation](#-documentation)
+- [🔧 Container Development Guide](#-container-development-guide)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+
+---
 
 ## 🎯 **Project Overview**
 
@@ -11,6 +44,21 @@ This repository contains the configuration and analysis pipeline for Whole Genom
 - **Main Question**: What genetic variants and population structure patterns are associated with dengue vector competence?
 - **Publication Target**: Multi-omics manuscript linking GWAS findings to WGS and RNA-seq validation
 - **Data Integration**: GWAS → WGS → RNA-seq validation pipeline
+
+<div align="center">
+
+### 📊 **Project Statistics**
+
+| Metric | Value |
+|--------|-------|
+| 🧬 **WGS Samples** | 600 |
+| 📈 **Coverage** | ~11× average |
+| 🔬 **Tools Available** | 43+ |
+| 🐳 **Container Size** | ~2.3GB |
+| 🏗️ **Architectures** | AMD64, ARM64 |
+| 📚 **Documentation** | Complete |
+
+</div>
 
 ### Data Components
 
@@ -399,18 +447,25 @@ ssh-add -l
 ssh -i ~/.ssh/id_rsa your-username@cluster.hpcc.ucr.edu
 ```
 
-## 🔬 **Available Tools**
+## 🛠️ **Features & Tools**
 
-The container includes a comprehensive bioinformatics environment:
+<div align="center">
 
-### Core Bioinformatics Tools
-- **samtools** (1.22) - SAM/BAM file manipulation
-- **bcftools** (1.22) - VCF/BCF file manipulation
-- **vcftools** (0.1.17) - VCF file processing
-- **angsd** (0.940) - Genotype likelihood-based analysis
-- **plink** (v1.9.0-b.8) - Population genetics analysis
-- **plink2** (v2.0.0-a.6.9LM) - Modern PLINK for large datasets
-- **fastq-dump** (2.9.6) - SRA data download
+### 🔬 **43+ Bioinformatics Tools Included**
+
+</div>
+
+### 🧬 **Core Genomics Tools**
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| 🧬 **samtools** | 1.22 | SAM/BAM file manipulation |
+| 📊 **bcftools** | 1.22 | VCF/BCF file manipulation |
+| 🔍 **vcftools** | 0.1.17 | VCF file processing |
+| 🧮 **angsd** | 0.940 | Genotype likelihood analysis |
+| 📈 **plink** | v1.9.0-b.8 | Population genetics analysis |
+| 🚀 **plink2** | v2.0.0-a.6.9LM | Modern PLINK for large datasets |
+| ⬇️ **fastq-dump** | 2.9.6 | SRA data download |
 
 ### Python Environment
 - **Python** (3.11.7) with comprehensive bioinformatics packages:
@@ -568,9 +623,15 @@ singularity exec aegypti-dengue-wgs.sif R -e "library(ade4); library(MASS); libr
 - **Documentation**: Complete computational methods for peer review
 - **Data Integration**: Multi-omics approach linking genotype to phenotype
 
-## 🚀 **Getting Started**
+## 🚀 **Quick Start**
 
-### 1. Environment Setup
+<div align="center">
+
+### ⚡ **Get Started in 3 Steps**
+
+</div>
+
+### 1️⃣ **Clone & Setup**
 
 ```bash
 # Clone repository
@@ -579,11 +640,24 @@ cd aegyptiDengueWGS
 
 # Pull Singularity container
 singularity pull aegypti-dengue-wgs.sif docker://cosmelab/aegypti-dengue-wgs:latest
+```
 
-# Test the container (after starting it)
+### 2️⃣ **Test Environment**
+
+```bash
+# Start interactive shell
 singularity shell --cleanenv --bind /path/to/your/project:/proj aegypti-dengue-wgs.sif
+
+# Test all tools (43 bioinformatics tools)
 cd /proj
 ./scripts/test_tools.sh
+```
+
+### 3️⃣ **Start Analysis**
+
+```bash
+# Your WGS analysis pipeline is ready!
+# Check the documentation below for detailed workflows
 ```
 
 ### 2. Data Preparation
