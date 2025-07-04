@@ -51,6 +51,9 @@ Dockerfile
 docker-compose.yml
 .dockerignore
 
+# Singularity containers
+*.sif
+
 # Personal information and HPC-specific files
 nf-core/configs/hpc_batch.conf
 scripts/transfer_hpc_data.sh

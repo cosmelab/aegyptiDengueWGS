@@ -93,6 +93,12 @@ Thumbs.db
 # Docker
 .docker/
 
+# Singularity containers
+*.sif
+
+# Configuration files should stay in repo
+# .prettierignore, .prettierrc, .dockerignore are tracked
+
 # Temporary files
 *.tmp
 *.temp
